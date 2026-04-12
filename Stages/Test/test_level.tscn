@@ -1,38 +1,22 @@
 [gd_scene format=3 uid="uid://cj0qulg4bnuav"]
 
 [ext_resource type="PackedScene" uid="uid://cxuguhjt0m84b" path="res://Entities/Player/player.tscn" id="1_8hnk4"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_q4y6e"]
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8hnk4"]
-points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+[ext_resource type="MeshLibrary" uid="uid://bvybf2fd1xbgs" path="res://Stages/Test/Mesh Library/mLib_test.tres" id="2_gk1d0"]
 
 [node name="TestLevel" type="Node3D" unique_id=304971904]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=811253029]
-transform = Transform3D(5.56, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("PlaneMesh_q4y6e")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=559376071]
-axis_lock_linear_x = true
-axis_lock_linear_y = true
-axis_lock_linear_z = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=886416798]
-shape = SubResource("ConvexPolygonShape3D_8hnk4")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=458630117]
-transform = Transform3D(5.56, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -1, 1)
-mesh = SubResource("PlaneMesh_q4y6e")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2" unique_id=733384390]
-axis_lock_linear_x = true
-axis_lock_linear_y = true
-axis_lock_linear_z = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D" unique_id=1193614101]
-shape = SubResource("ConvexPolygonShape3D_8hnk4")
 
 [node name="Player" parent="." unique_id=898491729 instance=ExtResource("1_8hnk4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2197752, 0)
 JUMP_DECELERATION = 35.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=475148016]
+transform = Transform3D(0.8660254, -0.4330127, -0.25000003, 0, -0.50000006, 0.8660254, -0.5, -0.75, -0.43301275, 0, 9, 0)
+
+[node name="GridMap" type="GridMap" parent="." unique_id=2137810160]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh_library = ExtResource("2_gk1d0")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(-1, 65535, 0, -65536, 65535, 0, -65535, 65535, 0, -2, 65535, 0, -65534, 65535, 1, -65533, 65535, 1, -65532, 65535, 1, -65528, 65535, 0, -65527, 65535, 0, -65526, 65535, 0, -65525, 65535, 0, -65524, 65535, 0, -65523, 65535, 0, 9, 65535, 0, 10, 65535, 0, 11, 65535, 0, 12, 65535, 0, 13, 65535, 0, 65546, 65535, 0, 65547, 65535, 0, 65548, 65535, 0, 65549, 65535, 0, 131083, 65535, 1, 131085, 65535, 1, -65520, 65535, 0, 16, 65535, 0, 65552, 65535, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)

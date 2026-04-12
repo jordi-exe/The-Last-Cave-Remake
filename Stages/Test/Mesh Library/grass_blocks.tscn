@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bldfxgcranvcy"]
+
+[ext_resource type="PackedScene" uid="uid://dndkj3csnrd2c" path="res://Stages/Test/Models/Environment/GrassBlock.blend" id="1_rur6j"]
+
+[node name="GrassBlock" unique_id=915795845 instance=ExtResource("1_rur6j")]
