@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://cxuguhjt0m84b"]
 
-[ext_resource type="Script" uid="uid://ctppdv2jsuad6" path="res://Entities/Player/player.gd" id="1_3uyv8"]
+[ext_resource type="Script" uid="uid://ctppdv2jsuad6" path="res://Entities/Player/playerController.gd" id="1_3uyv8"]
 [ext_resource type="Texture2D" uid="uid://c53rkf80psqy4" path="res://Entities/Player/Sprites/DummyIdle.png" id="1_mv1ah"]
 [ext_resource type="Texture2D" uid="uid://bnwd257nwno7e" path="res://Entities/Player/Sprites/DummyFall.png" id="2_tekja"]
 [ext_resource type="Texture2D" uid="uid://dbjioi4s4yxk3" path="res://Entities/Player/Sprites/DummyJump.png" id="4_5c2io"]
+[ext_resource type="Texture2D" uid="uid://dctfp378e108m" path="res://Entities/Player/Sprites/DummyGrab.png" id="5_4wf4l"]
 [ext_resource type="Texture2D" uid="uid://cuuddh5lur7us" path="res://Entities/Player/Sprites/DummyWalk.png" id="5_5c2io"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3uyv8"]
@@ -34,6 +35,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("5_4wf4l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4wf4l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4wf4l")
+}],
+"loop": false,
+"name": &"ledgeGrab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("5_5c2io")
 }],
 "loop": true,
@@ -46,6 +61,7 @@ radius = 0.2705078
 height = 1.7
 
 [node name="Player" type="CharacterBody3D" unique_id=898491729]
+axis_lock_linear_z = true
 script = ExtResource("1_3uyv8")
 
 [node name="PlayerSprite" type="AnimatedSprite3D" parent="." unique_id=1807186044]
@@ -54,14 +70,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1630246, 0)
 pixel_size = 0.0575
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_3uyv8")
-animation = &"walk"
+animation = &"ledgeGrab"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=499463220]
+[node name="PlayerCollider" type="CollisionShape3D" parent="." unique_id=499463220]
+unique_name_in_owner = true
 shape = SubResource("CapsuleShape3D_3uyv8")
 debug_color = Color(0.8053626, 0.0023457003, 0.9946659, 1)
 
 [node name="CameraOffset" type="Node3D" parent="." unique_id=582279009]
 transform = Transform3D(1, 0, 0, 0, 0.9914449, 0.1305262, 0, -0.1305262, 0.9914449, 0, 1.75, 7)
+visible = false
 
 [node name="Camera3D" type="Camera3D" parent="CameraOffset" unique_id=2045901538]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -73,3 +91,21 @@ unique_name_in_owner = true
 process_callback = 0
 wait_time = 0.2
 one_shot = true
+
+[node name="StateDebug" type="Label3D" parent="." unique_id=1554608691]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1600711, 0)
+text = "STATE"
+font_size = 50
+
+[node name="rcLedgeGrab" type="RayCast3D" parent="." unique_id=1838389789]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26158738, 1.185514, 0)
+target_position = Vector3(0.5, -0.5, 0)
+debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="rcLedgeSpace" type="RayCast3D" parent="." unique_id=1752353048]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9986211, -0.82078457, 0)
+target_position = Vector3(0, 1.75, 0)
+debug_shape_custom_color = Color(1, 0, 0, 1)
