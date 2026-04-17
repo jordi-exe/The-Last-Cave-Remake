@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbjioi4s4yxk3"
-path="res://.godot/imported/DummyJump.png-6b382c5793bb8f3ccf8a02440b8071bc.ctex"
+uid="uid://cpop3hw7hvod2"
+path="res://.godot/imported/DummyClimb.png-7880d89f4df8757004b94c3436f36b0a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Player/Sprites/DummyJump.png"
-dest_files=["res://.godot/imported/DummyJump.png-6b382c5793bb8f3ccf8a02440b8071bc.ctex"]
+source_file="res://Entities/Player/Sprites/Dummy Climb/DummyClimb.png"
+dest_files=["res://.godot/imported/DummyClimb.png-7880d89f4df8757004b94c3436f36b0a.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false
 mipmaps/limit=-1
-roughness/mode=1
+roughness/mode=0
 roughness/src_normal=""
 process/channel_remap/red=0
 process/channel_remap/green=1

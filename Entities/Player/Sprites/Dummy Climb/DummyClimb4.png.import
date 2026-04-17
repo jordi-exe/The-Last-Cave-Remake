@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbjioi4s4yxk3"
-path="res://.godot/imported/DummyJump.png-6b382c5793bb8f3ccf8a02440b8071bc.ctex"
+uid="uid://bagpgh5leaofn"
+path="res://.godot/imported/DummyClimb4.png-33adc15913c5b5c5e348d9671fb124d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Player/Sprites/DummyJump.png"
-dest_files=["res://.godot/imported/DummyJump.png-6b382c5793bb8f3ccf8a02440b8071bc.ctex"]
+source_file="res://Entities/Player/Sprites/Dummy Climb/DummyClimb4.png"
+dest_files=["res://.godot/imported/DummyClimb4.png-33adc15913c5b5c5e348d9671fb124d0.ctex"]
 
 [params]
 

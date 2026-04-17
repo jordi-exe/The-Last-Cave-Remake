@@ -4,8 +4,29 @@
 [ext_resource type="Texture2D" uid="uid://c53rkf80psqy4" path="res://Entities/Player/Sprites/DummyIdle.png" id="1_mv1ah"]
 [ext_resource type="Texture2D" uid="uid://bnwd257nwno7e" path="res://Entities/Player/Sprites/DummyFall.png" id="2_tekja"]
 [ext_resource type="Texture2D" uid="uid://dbjioi4s4yxk3" path="res://Entities/Player/Sprites/DummyJump.png" id="4_5c2io"]
+[ext_resource type="Texture2D" uid="uid://cpop3hw7hvod2" path="res://Entities/Player/Sprites/Dummy Climb/DummyClimb.png" id="5_01a4e"]
 [ext_resource type="Texture2D" uid="uid://dctfp378e108m" path="res://Entities/Player/Sprites/DummyGrab.png" id="5_4wf4l"]
 [ext_resource type="Texture2D" uid="uid://cuuddh5lur7us" path="res://Entities/Player/Sprites/DummyWalk.png" id="5_5c2io"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a1se"]
+atlas = ExtResource("5_01a4e")
+region = Rect2(0, 0, 50, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lub02"]
+atlas = ExtResource("5_01a4e")
+region = Rect2(50, 0, 50, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1y6q"]
+atlas = ExtResource("5_01a4e")
+region = Rect2(100, 0, 50, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ap3xn"]
+atlas = ExtResource("5_01a4e")
+region = Rect2(150, 0, 50, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iplt1"]
+atlas = ExtResource("5_01a4e")
+region = Rect2(200, 0, 50, 74)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3uyv8"]
 animations = [{
@@ -35,11 +56,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_4wf4l")
+"texture": SubResource("AtlasTexture_7a1se")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_4wf4l")
+"texture": SubResource("AtlasTexture_lub02")
 }, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1y6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ap3xn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iplt1")
+}],
+"loop": false,
+"name": &"ledgeClimb",
+"speed": 15.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("5_4wf4l")
 }],
@@ -70,7 +105,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1630246, 0)
 pixel_size = 0.0575
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_3uyv8")
-animation = &"ledgeGrab"
+animation = &"ledgeClimb"
+frame = 4
+frame_progress = 1.0
 
 [node name="PlayerCollider" type="CollisionShape3D" parent="." unique_id=499463220]
 unique_name_in_owner = true
@@ -78,7 +115,7 @@ shape = SubResource("CapsuleShape3D_3uyv8")
 debug_color = Color(0.8053626, 0.0023457003, 0.9946659, 1)
 
 [node name="CameraOffset" type="Node3D" parent="." unique_id=582279009]
-transform = Transform3D(1, 0, 0, 0, 0.9914449, 0.1305262, 0, -0.1305262, 0.9914449, 0, 1.75, 7)
+transform = Transform3D(1, 0, 0, 0, 0.9914449, 0.1305262, 0, -0.1305262, 0.9914449, 0, 1.75, 9.9942875)
 visible = false
 
 [node name="Camera3D" type="Camera3D" parent="CameraOffset" unique_id=2045901538]
