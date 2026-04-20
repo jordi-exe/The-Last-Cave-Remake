@@ -105,9 +105,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1630246, 0)
 pixel_size = 0.0575
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_3uyv8")
-animation = &"ledgeClimb"
-frame = 4
-frame_progress = 1.0
+animation = &"idle"
 
 [node name="PlayerCollider" type="CollisionShape3D" parent="." unique_id=499463220]
 unique_name_in_owner = true
@@ -134,6 +132,12 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1600711, 0)
 text = "STATE"
 font_size = 50
+
+[node name="rcHeadCheck" type="RayCast3D" parent="." unique_id=1529658402]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8193214, 0)
+target_position = Vector3(0, 0.5, 0)
+debug_shape_custom_color = Color(1, 0, 0, 1)
 
 [node name="rcLedgeGrab" type="RayCast3D" parent="." unique_id=1838389789]
 unique_name_in_owner = true

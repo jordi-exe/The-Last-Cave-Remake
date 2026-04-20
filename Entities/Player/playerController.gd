@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-enum STATE { FALL, FLOOR, JUMP, LEDGE_GRAB, LEDGE_CLIMB, LEDGE_JUMP }
+enum STATE { FALL, FLOOR, JUMP, LEDGE_GRAB, LEDGE_HANG, LEDGE_JUMP }
 
 #Player Physics variables
 @export var FALL_GRAVITY := 30.0
@@ -17,6 +17,7 @@ enum STATE { FALL, FLOOR, JUMP, LEDGE_GRAB, LEDGE_CLIMB, LEDGE_JUMP }
 
 #Ledge grab variables
 @onready var player_collider: CollisionShape3D = %PlayerCollider
+@onready var rc_head_check: RayCast3D = %rcHeadCheck
 @onready var rc_ledge_grab: RayCast3D = %rcLedgeGrab
 @onready var rc_ledge_space: RayCast3D = %rcLedgeSpace
 
@@ -50,13 +51,15 @@ func SwitchState(toState: STATE) -> void:
 			coyote_timer.stop()
 		
 		STATE.LEDGE_GRAB:
-			player_sprite.play("ledgeGrab")
+			player_sprite.play("ledgeClimb")
 			velocity = Vector3.ZERO
 			global_position.y = rc_ledge_grab.get_collision_point().y - (player_collider.shape.height * 0.5)
 			#refresh any cooldown for movement functions here i.e. double jump, air dash etc
 		
-		STATE.LEDGE_CLIMB:
-			player_sprite.play("ledgeClimb")
+		STATE.LEDGE_HANG:
+			player_sprite.play("ledgeGrab")
+			velocity = Vector3.ZERO
+			global_position.y = rc_ledge_grab.get_collision_point().y - (player_collider.shape.height * 0.5)
 		
 		STATE.LEDGE_JUMP:
 			player_sprite.play("jump") #this should be a different animation from the regular jump
@@ -76,6 +79,8 @@ func ProcessState(delta: float) -> void:
 				SwitchState(STATE.JUMP)
 			elif IsInputTowardFacing() and IsLedge() and IsSpace():
 				SwitchState(STATE.LEDGE_GRAB)
+			elif IsInputTowardFacing() and IsLedge() and not IsSpace():
+				SwitchState(STATE.LEDGE_HANG)
 		
 		STATE.FLOOR:
 			if Input.get_axis("moveLeft", "moveRight"):
@@ -98,12 +103,6 @@ func ProcessState(delta: float) -> void:
 				SwitchState(STATE.FALL)
 		
 		STATE.LEDGE_GRAB:
-			player_sprite.play("ledgeGrab")
-			
-			if Input.is_action_just_pressed("up"):
-				SwitchState(STATE.LEDGE_CLIMB)
-		
-		STATE.LEDGE_CLIMB:			
 			if not player_sprite.is_playing():
 				var offset := LedgeClimbOffset()
 				offset.x *= facingDirection
@@ -116,6 +115,12 @@ func ProcessState(delta: float) -> void:
 				offset.x *= facingDirection * progress
 				position += offset
 				SwitchState(STATE.LEDGE_JUMP)
+		
+		STATE.LEDGE_HANG:
+			if Input.is_action_just_pressed("jump"):
+				SwitchState(STATE.LEDGE_JUMP)
+			elif Input.is_action_just_pressed("down"):
+				SwitchState(STATE.FALL)
 
 func HandleMovement() -> void:
 	var inputDirection := signf(Input.get_axis("moveLeft", "moveRight"))
@@ -139,14 +144,9 @@ func IsInputTowardFacing() -> bool:
 func IsLedge() -> bool:
 	return is_on_wall_only() and \
 	rc_ledge_grab.is_colliding() and \
+	not rc_head_check.is_colliding() and \
 	rc_ledge_grab.get_collision_normal().is_equal_approx(Vector3.UP)
 
-#Checks if the space above the ledge has enough space to allow the player to climb up
-	#May change this where if there is no space available to climb, the player is
-	#unable to climb, but can still jump out of the hanging state.
-	
-	#This could allow for interesting level design where the player has to jump from 1 block height
-	#spaces without being able to climb up
 func IsSpace() -> bool:
 	rc_ledge_space.global_position = rc_ledge_grab.get_collision_point()
 	rc_ledge_space.force_raycast_update()
