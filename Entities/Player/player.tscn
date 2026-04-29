@@ -98,6 +98,8 @@ height = 1.7
 [node name="Player" type="CharacterBody3D" unique_id=898491729]
 axis_lock_linear_z = true
 script = ExtResource("1_3uyv8")
+WALK_ACCEL = 30.0
+FRICTION = 50.0
 
 [node name="PlayerSprite" type="AnimatedSprite3D" parent="." unique_id=1807186044]
 unique_name_in_owner = true
@@ -122,6 +124,12 @@ current = true
 size = 5.0
 
 [node name="CoyoteTimer" type="Timer" parent="." unique_id=672625744]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+
+[node name="LedgeGrabTimer" type="Timer" parent="." unique_id=646227383]
 unique_name_in_owner = true
 process_callback = 0
 wait_time = 0.2
