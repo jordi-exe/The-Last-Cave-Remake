@@ -13,9 +13,10 @@ var MIN_JUMP_VELOCITY := 5.0
 @export var LEDGE_JUMP_VELOCITY := 17.0
 
 # # Horizontal Physics
-@export var WALK_VELOCITY := 10.0
-@export var WALK_ACCEL := 20.0
-@export var FRICTION := 15.0
+@export var MAX_SPEED := 12.0
+@export var T_MAX_SPEED := 0.25 #time taken to reach max speed in secs
+@export var T_STOP := 0.12 #time taken to stop
+@export var BREAK_MULTI := 0.5 #strength of the overall brake when turning
 
 #Misc variables
 @onready var player_sprite: AnimatedSprite3D = %PlayerSprite
@@ -131,36 +132,52 @@ func ProcessState(delta: float) -> void:
 				SwitchState(STATE.FALL)
 
 func HandleMovement(delta: float) -> void:
-	var inputDirection := signf(Input.get_axis("moveLeft", "moveRight"))
+	var inputDirection : float = Input.get_axis("moveLeft", "moveRight")
 	
-	#Old horizontal movement code
-	#if inputDirection:
-		#player_sprite.flip_h = inputDirection < 0
-		#facingDirection = inputDirection
-		#
-		#Mirrors the raycast direction based on the input direction
-		#rc_ledge_grab.position.x = facingDirection * absf(rc_ledge_grab.position.x)
-		#rc_ledge_grab.target_position.x = facingDirection * absf(rc_ledge_grab.target_position.x)
-		#rc_ledge_grab.force_raycast_update()
-	
-	#basic horizontal movement, need to implement proper momentum
-	#velocity.x = inputDirection * WALK_VELOCITY
+	var currentSpeed : float = velocity.x
+	var absSpeed : float = abs(currentSpeed)
+	var speedRatio : float = clamp(absSpeed / MAX_SPEED, 0.0, 1.0)
 	
 	#New horizontal movement code with momentum calculation
 	if inputDirection:
 		player_sprite.flip_h = inputDirection < 0
-		facingDirection = inputDirection
+		facingDirection = signf(inputDirection)
 		
 		#Mirrors the raycast direction based on the input direction
 		rc_ledge_grab.position.x = facingDirection * absf(rc_ledge_grab.position.x)
 		rc_ledge_grab.target_position.x = facingDirection * absf(rc_ledge_grab.target_position.x)
 		rc_ledge_grab.force_raycast_update()
 		
-		var targetSpeed = inputDirection * WALK_VELOCITY
-		velocity.x = move_toward(velocity.x, targetSpeed, WALK_ACCEL * delta)
+		var isReversing: bool = inputDirection != 0 \
+		and signf(currentSpeed) != signf(inputDirection) \
+		and abs(currentSpeed) > 0.1
+		
+		if isReversing:
+			#Braking calculation when making hard turn
+			var brakeForce: float = (MAX_SPEED / T_STOP) * BREAK_MULTI  # tweak multiplier
+			currentSpeed = move_toward(currentSpeed, 0, brakeForce * delta)
+		else:
+			#Acceleration Curve Calculation
+			var normalizedSpeed: float = speedRatio
+			var curve: float = 1.0 - pow(1.0 - normalizedSpeed, 2.0)
+
+			var accel: float = MAX_SPEED / T_MAX_SPEED
+			var deltaSpeed: float = accel * (1.0 - curve) * delta
+
+			currentSpeed += deltaSpeed * inputDirection
 	else:
-		#Apply friction when no input is detected
-		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+		#Deceleration Curve Calculation
+		var normalizedSpeed : float = speedRatio
+		var curve : float = pow(1.0 - normalizedSpeed, 2.0)
+
+		var decel : float = MAX_SPEED / T_STOP
+		var deltaSpeed :float = decel * (1.0 - curve) * delta
+
+		currentSpeed = move_toward(currentSpeed, 0, deltaSpeed)
+	
+	#Clamped final speed
+	currentSpeed = clamp(currentSpeed, -MAX_SPEED, MAX_SPEED)
+	velocity.x = currentSpeed
 
 #Prevents ledge grab if no input is detected when passing a ledge
 func IsInputTowardFacing() -> bool:
