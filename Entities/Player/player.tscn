@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://cpop3hw7hvod2" path="res://Entities/Player/Sprites/Dummy Climb/DummyClimb.png" id="5_01a4e"]
 [ext_resource type="Texture2D" uid="uid://dctfp378e108m" path="res://Entities/Player/Sprites/DummyGrab.png" id="5_4wf4l"]
 [ext_resource type="Texture2D" uid="uid://cuuddh5lur7us" path="res://Entities/Player/Sprites/DummyWalk.png" id="5_5c2io"]
+[ext_resource type="Script" uid="uid://dpgladobdwds6" path="res://Entities/Player/scarf_component.gd" id="8_x1y6q"]
+[ext_resource type="Texture2D" uid="uid://ck37fl0f4coxj" path="res://Entities/Player/Sprites/DummyScarf/ScarfBase.png" id="9_ap3xn"]
+[ext_resource type="Texture2D" uid="uid://boh4pf0qknuuq" path="res://Entities/Player/Sprites/DummyScarf/ScarfSegment.png" id="10_iplt1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7a1se"]
 atlas = ExtResource("5_01a4e")
@@ -98,6 +101,22 @@ height = 1.7
 [node name="Player" type="CharacterBody3D" unique_id=898491729]
 axis_lock_linear_z = true
 script = ExtResource("1_3uyv8")
+
+[node name="ScarfComponent" type="Node3D" parent="." unique_id=1821100871 node_paths=PackedStringArray("characterBody", "sprite_with_flip_h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.287, 0)
+script = ExtResource("8_x1y6q")
+characterBody = NodePath("..")
+sprite_with_flip_h = NodePath("../PlayerSprite")
+startingScarfTexture = ExtResource("9_ap3xn")
+scarfSegmentTexture = ExtResource("10_iplt1")
+totalScarfSegments = 7
+scarfSegmentOffset = Vector3(-0.135, -0.14, 0)
+scarfSizeMAX = 6.0
+scarfSizeMIN = 2.0
+maxSegmentDistance = 0.065
+windStrengthY = -0.015000000000000013
+maxWindVelocity = 75.0
+metadata/_custom_type_script = "uid://dpgladobdwds6"
 
 [node name="PlayerSprite" type="AnimatedSprite3D" parent="." unique_id=1807186044]
 unique_name_in_owner = true

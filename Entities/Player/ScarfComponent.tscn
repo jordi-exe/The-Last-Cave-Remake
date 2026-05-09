@@ -4,3 +4,4 @@
 
 [node name="ScarfComponent" type="Node3D" unique_id=509854649]
 script = ExtResource("1_u6xcl")
+scarfSegmentOffset = Vector2(-0.5, 2)
