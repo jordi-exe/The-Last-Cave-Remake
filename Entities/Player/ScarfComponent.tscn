@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://ddbko5xfejpg1"]
+
+[ext_resource type="Script" uid="uid://dpgladobdwds6" path="res://Entities/Player/scarf_component.gd" id="1_u6xcl"]
+
+[node name="ScarfComponent" type="Node3D" unique_id=509854649]
+script = ExtResource("1_u6xcl")
+scarfSegmentOffset = Vector2(-0.5, 2)
